@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Location Intelligence for UnitedHealthcare</title>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="uhc-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <svg viewBox="0 0 32 32" width="36" height="36" fill="none">
+          <rect width="32" height="32" rx="6" fill="#FF612B"/>
+          <path d="M8 10h4v12H8V10zm12 0h4v12h-4V10zM12 14h8v4h-8v-4z" fill="#fff"/>
+        </svg>
+        <div>
+          <h1>Location Intelligence for UnitedHealthcare</h1>
+          <p class="header-subtitle">ArcGIS Solutions Showcase</p>
+        </div>
+      </div>
+      <div class="auth-bar" id="authBar">
+        <span class="auth-status" id="authStatus">Not authenticated</span>
+        <input type="text" id="apiKeyInput" class="auth-input" placeholder="Paste ArcGIS API Key...">
+        <button id="apiKeyBtn" class="auth-btn">Use API Key</button>
+        <span class="auth-divider">or</span>
+        <button id="oauthBtn" class="auth-btn auth-btn-oauth">Sign in with ArcGIS Online</button>
+        <button id="signOutBtn" class="auth-btn auth-btn-signout" style="display:none">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="overview">Overview</button>
+    <button class="tab-btn" data-tab="fraud">Fraud Detection</button>
+    <button class="tab-btn" data-tab="access">Access to Care &amp; Equity</button>
+    <button class="tab-btn" data-tab="cyber">Cyber Resilience</button>
+    <button class="tab-btn" data-tab="retention">Member Retention</button>
+    <button class="tab-btn" data-tab="transparency">Transparency Hub</button>
+    <button class="tab-btn" data-tab="rx">Rx Analytics</button>
+  </nav>
+
+  <main class="main-content">
+    <!-- Overview Tab -->
+    <section class="tab-panel active" id="panel-overview">
+      <div class="overview-full" id="overviewContent"></div>
+    </section>
+
+    <!-- Fraud Detection Tab -->
+    <section class="tab-panel" id="panel-fraud">
+      <div class="panel-split">
+        <div class="sidebar" id="fraudSidebar">
+          <h2>Medicare Billing Fraud Detection</h2>
+          <p class="solution-tag">Hot Spot Analysis + Knowledge Graph + GeoAI</p>
+          <p>Counties colored by Billing Anomaly Score using Getis-Ord Gi* Hot Spot Analysis. GeoAnalytics Server runs space-time cubes to detect emerging fraud clusters. Knowledge Graph traces provider-facility relationships.</p>
+          <div id="fraudStats" class="stats-panel"></div>
+          <div id="fraudLegend" class="legend-panel"></div>
+          <div class="live-tool" id="fraudTool">
+            <h4>Geocoding Service</h4>
+            <p class="tool-desc">Geocode a provider address to locate it on the map.</p>
+            <input type="text" id="fraudGeoInput" class="tool-input" placeholder="e.g. 1600 Pennsylvania Ave, DC">
+            <button id="fraudGeoBtn" class="tool-btn" disabled>Geocode Address</button>
+            <div id="fraudGeoResult" class="tool-result"></div>
+          </div>
+        </div>
+        <div class="map-container" id="map-fraud"></div>
+      </div>
+    </section>
+
+    <!-- Access to Care & Equity Tab -->
+    <section class="tab-panel" id="panel-access">
+      <div class="panel-split">
+        <div class="sidebar" id="accessSidebar">
+          <h2>Access to Care &amp; Equity</h2>
+          <p class="solution-tag">Geoenrichment + Living Atlas + Location Allocation</p>
+          <p>Click any point or region on the map to query the ArcGIS Geoenrichment Service for real equity-related demographics: poverty, uninsured rates, minority population, health indicators, and more.</p>
+          <div id="accessStats" class="stats-panel"></div>
+          <div id="accessLegend" class="legend-panel"></div>
+          <div class="live-tool" id="accessTool">
+            <h4>Geoenrichment — Equity Demographics</h4>
+            <p class="tool-desc">Click any point or region on the map to fetch real equity indicators from the ArcGIS Geoenrichment Service.</p>
+            <div id="accessEnrichResult" class="tool-result">Click a point on the map...</div>
+          </div>
+        </div>
+        <div class="map-container" id="map-access"></div>
+      </div>
+    </section>
+
+    <!-- Cyber Resilience Tab -->
+    <section class="tab-panel" id="panel-cyber">
+      <div class="panel-split">
+        <div class="sidebar" id="cyberSidebar">
+          <h2>Cyber Resilience</h2>
+          <p class="solution-tag">Indoors + Utility Network + Real-Time GIS</p>
+          <p>ArcGIS Indoors maps facility interiors. Utility Network traces infrastructure dependencies. ArcGIS Velocity ingests live telemetry and triggers geofenced alerts. GeoEvent Server automates incident escalation.</p>
+          <div id="cyberStats" class="stats-panel"></div>
+          <div id="cyberLegend" class="legend-panel"></div>
+          <div class="live-tool" id="cyberTool">
+            <h4>Routing Service</h4>
+            <p class="tool-desc">Click two facilities on the map to compute a failover route between them.</p>
+            <div id="cyberRouteStatus" class="tool-result">Click first facility...</div>
+          </div>
+        </div>
+        <div class="map-container" id="map-cyber"></div>
+      </div>
+    </section>
+
+    <!-- Member Retention Tab -->
+    <section class="tab-panel" id="panel-retention">
+      <div class="panel-split">
+        <div class="sidebar" id="retentionSidebar">
+          <h2>Member Retention</h2>
+          <p class="solution-tag">Business Analyst + Enrichment + Territory Design</p>
+          <p>Tapestry Segmentation profiles classify markets by healthcare behavior. Territory Design balances sales regions. Geoenrichment Service appends real-time demographics. ArcGIS Notebooks run Python-based churn prediction models.</p>
+          <div id="retentionKPIs" class="kpi-grid"></div>
+          <div id="retentionLegend" class="legend-panel"></div>
+          <div class="live-tool" id="retentionTool">
+            <h4>Geoenrichment Service</h4>
+            <p class="tool-desc">Click a state to fetch real demographics (population, income, Tapestry).</p>
+            <div id="enrichResult" class="tool-result">Click a state on the map...</div>
+          </div>
+        </div>
+        <div class="map-container" id="map-retention"></div>
+      </div>
+    </section>
+
+    <!-- Transparency Hub Tab -->
+    <section class="tab-panel" id="panel-transparency">
+      <div class="panel-split">
+        <div class="sidebar" id="transparencySidebar">
+          <h2>Transparency Hub</h2>
+          <p class="solution-tag">ArcGIS Hub + Experience Builder + Open Data</p>
+          <p>Hub Open Data portal with Feature Services publishing live provider directories. Geocoding-powered "Find a Provider" search with Routing Service drive-time estimates. ArcGIS Arcade calculates adequacy scores in real-time pop-ups.</p>
+          <div class="filter-group">
+            <label for="planTypeFilter">Plan Type</label>
+            <select id="planTypeFilter">
+              <option value="all">All Plans</option>
+              <option value="hmo">HMO</option>
+              <option value="ppo">PPO</option>
+              <option value="epo">EPO</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="specialtyFilter">Specialty</label>
+            <select id="specialtyFilter">
+              <option value="all">All Specialties</option>
+              <option value="primary">Primary Care</option>
+              <option value="cardiology">Cardiology</option>
+              <option value="oncology">Oncology</option>
+              <option value="behavioral">Behavioral Health</option>
+            </select>
+          </div>
+          <div id="transparencyStats" class="stats-panel"></div>
+          <div class="live-tool" id="transparencyTool">
+            <h4>Find a Provider (Geocoding)</h4>
+            <p class="tool-desc">Search any address to find the nearest provider region.</p>
+            <input type="text" id="providerSearch" class="tool-input" placeholder="e.g. 350 Fifth Ave, New York">
+            <button id="providerSearchBtn" class="tool-btn" disabled>Search</button>
+            <div id="providerSearchResult" class="tool-result"></div>
+          </div>
+        </div>
+        <div class="map-container" id="map-transparency"></div>
+      </div>
+    </section>
+
+    <!-- Rx Analytics Tab -->
+    <section class="tab-panel" id="panel-rx">
+      <div class="panel-split">
+        <div class="sidebar" id="rxSidebar">
+          <h2>Rx Analytics</h2>
+          <p class="solution-tag">Spatial Analysis + Network Analyst + Enrichment</p>
+          <p>Cluster &amp; Outlier Analysis (Anselin Local Moran's I) identifies high-cost zones. Network Analyst Service Area solver maps drive-time pharmacy deserts. Geoenrichment appends chronic disease prevalence. Suitability Modeling recommends new pharmacy partnerships.</p>
+          <div id="rxChart" class="chart-panel"></div>
+          <div id="rxLegend" class="legend-panel"></div>
+          <div class="live-tool" id="rxTool">
+            <h4>Pharmacy Finder (Geocode + Service Area)</h4>
+            <p class="tool-desc">Enter your address to find the nearest pharmacy and compute drive-time coverage.</p>
+            <input type="text" id="rxAddressInput" class="tool-input" placeholder="e.g. 233 S Wacker Dr, Chicago">
+            <button id="rxFindBtn" class="tool-btn" disabled>Find Nearest</button>
+            <div id="rxFindResult" class="tool-result"></div>
+          </div>
+        </div>
+        <div class="map-container" id="map-rx"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://js.arcgis.com/4.30/"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
