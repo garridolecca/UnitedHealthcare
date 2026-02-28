@@ -539,9 +539,222 @@ html, body { height: 100%; font-family: 'Segoe UI', system-ui, -apple-system, sa
 .esri-popup__main-container { max-width: 320px !important; }
 .esri-popup__header-title { color: var(--uhc-blue) !important; font-weight: 600 !important; }
 
-/* === Responsive === */
+/* === Mobile Auth Toggle Button === */
+.auth-toggle {
+  display: none;
+  background: none;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 6px;
+  color: #fff;
+  padding: 6px;
+  cursor: pointer;
+  margin-left: auto;
+  flex-shrink: 0;
+  line-height: 0;
+  transition: background .15s;
+}
+.auth-toggle:hover { background: rgba(255,255,255,.15); }
+
+/* === Responsive — Tablet (<=900px) === */
 @media (max-width: 900px) {
   .panel-split { flex-direction: column; }
-  .sidebar { width: 100%; min-width: 0; max-height: 35vh; border-right: none; border-bottom: 1px solid var(--uhc-border); }
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+    max-height: 35vh;
+    border-right: none;
+    border-bottom: 1px solid var(--uhc-border);
+  }
   .tab-btn { padding: 0 12px; font-size: .76rem; }
+}
+
+/* === Responsive — Mobile (<=768px) === */
+@media (max-width: 768px) {
+  :root {
+    --header-height: auto;
+    --tab-height: 48px;
+  }
+
+  /* Header stacks vertically */
+  .uhc-header {
+    height: auto;
+    padding: 10px 14px;
+  }
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .header-logo h1 { font-size: 1rem; }
+  .header-logo svg { width: 30px; height: 30px; }
+  .header-subtitle { font-size: .7rem; }
+
+  /* Auth toggle visible, auth bar collapsible */
+  .auth-toggle { display: inline-flex; }
+  .auth-bar {
+    display: none;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,.15);
+    margin-left: 0;
+  }
+  .auth-bar.open { display: flex; }
+  .auth-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px; /* prevents iOS zoom */
+    border-radius: 6px;
+  }
+  .auth-btn {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    font-size: .8rem;
+    border-radius: 6px;
+    min-height: 44px; /* touch target */
+  }
+  .auth-divider { width: 100%; text-align: center; }
+
+  /* Tab bar — scrollable, bigger touch targets */
+  .tab-bar {
+    height: var(--tab-height);
+    padding: 0 6px;
+    gap: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    padding: 0 14px;
+    font-size: .78rem;
+    min-height: 48px; /* touch target */
+  }
+
+  /* Main content fills remaining space */
+  .main-content {
+    height: calc(100vh - var(--tab-height));
+    height: calc(100dvh - var(--tab-height));
+    position: relative;
+  }
+
+  /* Sidebar on mobile — shorter, scrollable */
+  .sidebar {
+    max-height: 30vh;
+    padding: 14px;
+  }
+  .sidebar h2 { font-size: .95rem; }
+  .sidebar p { font-size: .8rem; }
+
+  /* Map takes remaining space */
+  .map-container { min-height: 40vh; }
+
+  /* Tool inputs — touch-friendly */
+  .tool-input {
+    padding: 10px 12px;
+    font-size: 16px; /* prevents iOS zoom */
+    border-radius: 6px;
+  }
+  .tool-btn {
+    padding: 12px;
+    font-size: .85rem;
+    min-height: 44px;
+    border-radius: 6px;
+  }
+
+  /* Filter selects — touch-friendly */
+  .filter-group select {
+    padding: 10px 12px;
+    font-size: 16px;
+    min-height: 44px;
+  }
+
+  /* Overview cards */
+  .overview-full { padding: 10px; overflow-y: auto; }
+  .overview-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 10px;
+  }
+  .overview-intro h2 { font-size: 1rem; }
+  .overview-intro p { font-size: .78rem; }
+  .solution-card { padding: 12px 14px; }
+  .solution-card-header h3 { font-size: .85rem; }
+
+  /* Modal — near full-screen on mobile */
+  .detail-modal {
+    width: 96%;
+    max-height: 90vh;
+    padding: 18px 16px;
+    border-radius: 10px;
+  }
+  .detail-modal-header h2 { font-size: 1rem; }
+  .detail-modal p { font-size: .82rem; }
+  .detail-modal-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+    min-height: 44px;
+  }
+  .detail-modal-close {
+    top: 8px;
+    right: 10px;
+    font-size: 1.6rem;
+    padding: 4px 8px; /* bigger tap area */
+  }
+
+  /* KPI grid */
+  .kpi-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .kpi-card .kpi-value { font-size: 1.15rem; }
+
+  /* ArcGIS popup override for mobile */
+  .esri-popup__main-container { max-width: 280px !important; }
+}
+
+/* === Responsive — Small phones (<=480px) === */
+@media (max-width: 480px) {
+  .uhc-header { padding: 8px 10px; }
+  .header-logo { gap: 10px; }
+  .header-logo h1 { font-size: .88rem; }
+  .header-logo svg { width: 26px; height: 26px; }
+  .header-subtitle { display: none; }
+
+  .tab-btn { padding: 0 10px; font-size: .72rem; }
+
+  .sidebar {
+    max-height: 25vh;
+    padding: 10px;
+  }
+  .sidebar h2 { font-size: .88rem; }
+
+  .overview-intro { margin-bottom: 8px; }
+  .overview-intro h2 { font-size: .9rem; }
+  .solution-card { padding: 10px 12px; }
+  .solution-card .card-summary { font-size: .76rem; }
+
+  .detail-modal { width: 100%; max-height: 95vh; border-radius: 8px 8px 0 0; margin-top: auto; }
+  .detail-overlay { align-items: flex-end; }
+
+  /* Stats more compact */
+  .stat-row { font-size: .78rem; padding: 5px 0; }
+
+  /* ArcGIS popup */
+  .esri-popup__main-container { max-width: 240px !important; font-size: 12px !important; }
+}
+
+/* === Touch device enhancements === */
+@media (hover: none) and (pointer: coarse) {
+  .solution-card:hover { transform: none; box-shadow: none; }
+  .solution-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  }
+  .tab-btn:hover { background: transparent; }
+  .tab-btn:active { background: rgba(255,255,255,.12); }
+}
+
+/* === Safe area insets (notched phones) === */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .uhc-header { padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); }
+  .tab-bar { padding-left: max(6px, env(safe-area-inset-left)); padding-right: max(6px, env(safe-area-inset-right)); }
 }

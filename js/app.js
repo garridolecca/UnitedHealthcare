@@ -1569,3 +1569,41 @@ document.addEventListener("DOMContentLoaded", () => {
   buildOverview();
   initAuth();
 });
+
+
+// ── Mobile Auth Toggle ───────────────────────────────────────
+(function() {
+  var toggle = document.getElementById('authToggle');
+  var authBar = document.getElementById('authBar');
+  if (toggle && authBar) {
+    toggle.addEventListener('click', function() {
+      authBar.classList.toggle('open');
+    });
+    // Close auth bar when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+      if (!toggle.contains(e.target) && !authBar.contains(e.target)) {
+        authBar.classList.remove('open');
+      }
+    });
+  }
+
+  // Fix main-content height on mobile (accounts for dynamic browser chrome)
+  function setMainHeight() {
+    var header = document.querySelector('.uhc-header');
+    var tabBar = document.querySelector('.tab-bar');
+    var main = document.querySelector('.main-content');
+    if (header && tabBar && main) {
+      var available = window.innerHeight - header.offsetHeight - tabBar.offsetHeight;
+      main.style.height = available + 'px';
+    }
+  }
+  window.addEventListener('resize', setMainHeight);
+  window.addEventListener('orientationchange', function() { setTimeout(setMainHeight, 100); });
+  // Run after initial render
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setMainHeight);
+  } else {
+    setMainHeight();
+  }
+})();
+

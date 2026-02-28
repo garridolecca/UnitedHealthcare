@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Location Intelligence for UnitedHealthcare</title>
   <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css">
   <link rel="stylesheet" href="css/styles.css">
@@ -20,6 +20,9 @@
           <p class="header-subtitle">ArcGIS Solutions Showcase</p>
         </div>
       </div>
+      <button class="auth-toggle" id="authToggle" aria-label="Toggle authentication menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
       <div class="auth-bar" id="authBar">
         <span class="auth-status" id="authStatus">Not authenticated</span>
         <input type="text" id="apiKeyInput" class="auth-input" placeholder="Paste ArcGIS API Key...">
