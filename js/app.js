@@ -847,35 +847,6 @@ function getAdequacyScore(d, plan, specialty) {
   return Math.round((planScore + specScore) / 2);
 }
 
-function renderTransparency(plan, specialty) {
-  if (!transparencyLayer) return;
-  transparencyLayer.removeAll();
-
-  transparencyData.forEach((d) => {
-    const score = getAdequacyScore(d, plan, specialty);
-    transparencyLayer.add(new require("esri/Graphic")({
-      geometry: new (require("esri/geometry/Point"))({ longitude: d.lng, latitude: d.lat }),
-      symbol: { type: "simple-marker", color: adequacyColor(score), outline: { color: "#fff", width: 1.5 }, size: 18 + d.providers / 1200 },
-      attributes: { ...d, adequacy: score },
-      popupTemplate: {
-        title: "{name}",
-        content: `<b>Adequacy Score:</b> ${score}%<br>
-                  <b>Providers:</b> ${d.providers.toLocaleString()}<br>
-                  <b>Avg Wait (days):</b> ${d.wait}<br>
-                  <b>Satisfaction:</b> ${d.satisfaction}/5.0`,
-      },
-    }));
-  });
-
-  const avgAdequacy = Math.round(transparencyData.reduce((s, d) => s + getAdequacyScore(d, plan, specialty), 0) / transparencyData.length);
-  const totalProviders = transparencyData.reduce((s, d) => s + d.providers, 0);
-  document.getElementById("transparencyStats").innerHTML = `
-    <div class="stat-row"><span class="label">Regions</span><span class="value">${transparencyData.length}</span></div>
-    <div class="stat-row"><span class="label">Total Providers</span><span class="value">${totalProviders.toLocaleString()}</span></div>
-    <div class="stat-row"><span class="label">Avg Adequacy</span><span class="value">${avgAdequacy}%</span></div>
-    <div class="stat-row"><span class="label">Filter</span><span class="value">${plan === "all" ? "All Plans" : plan.toUpperCase()} / ${specialty === "all" ? "All" : specialty}</span></div>`;
-}
-
 function buildTransparency(Map, MapView, Graphic, GraphicsLayer, Point) {
   transparencyLayer = new GraphicsLayer();
   const map = new Map({ basemap: "gray-vector", layers: [transparencyLayer] });
