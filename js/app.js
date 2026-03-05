@@ -425,6 +425,57 @@ function buildGoals() {
     </div>
 
     <div class="goals-section">
+      <h3>Security &amp; Compliance: Tenable Vulnerability Issue</h3>
+      <div class="tenable-banner">
+        <span class="tenable-severity">ACTIVE ISSUE</span>
+        <span>Tenable scan findings impacting ArcGIS Enterprise deployment &mdash; Notebook Server removed, ArcGIS Pro deployment blocked</span>
+      </div>
+      <div class="goals-grid">
+        <div class="goal-card tenable-card">
+          <h4>Notebook Server &mdash; Tomcat CVE (CVE-2025-46701)</h4>
+          <p><strong>Finding:</strong> Tenable flagged ArcGIS Notebook Server (11.3) on Linux for running Tomcat 9.0.84 (fixed version: 9.0.105). Optum's 2-day remediation policy forced immediate removal of Notebook Server from production.</p>
+          <p><strong>Esri Position:</strong> The CVE targets case-insensitive file systems (Windows only) and CGI servlets, which Esri does not use. Esri's assessment: <em>not exploitable</em> in ArcGIS software. The vulnerability is rated LOW severity (CVSSv4 1.7) by the researchers who reported it.</p>
+        </div>
+        <div class="goal-card tenable-card">
+          <h4>ArcGIS Enterprise &mdash; Windows Risk</h4>
+          <p><strong>Risk:</strong> Optum's Windows servers are not yet scanned with the same Tenable tool, but it is expected. When flagged, Tomcat 10.1.2 in ArcGIS Enterprise on Windows could trigger the same compliance action, potentially suspending all Enterprise operations.</p>
+          <p><strong>Proposed Mitigation:</strong> Explore creating a script/guidance with Professional Services to swap Tomcat 10.1.2 for a compliant version (e.g., 10.1.4) as a contingency plan.</p>
+        </div>
+        <div class="goal-card tenable-card">
+          <h4>ArcGIS Pro &mdash; Python Version</h4>
+          <p><strong>Finding:</strong> The Python version bundled with ArcGIS Pro is 2 versions behind the secure version per Tenable scanning. This has blocked all new ArcGIS Pro deployments at Optum.</p>
+          <p><strong>Impact:</strong> No new Pro installations can be rolled out until the Python dependency is updated to a Tenable-compliant version.</p>
+        </div>
+        <div class="goal-card tenable-card">
+          <h4>Esri CISO Assessment &amp; Recommendations</h4>
+          <p><strong>Key Points from Michael Young (Esri CISO-Products):</strong></p>
+          <p>&bull; Esri's product is not vulnerable &mdash; the component, OS, and capability (CGI) do not align with the CVE conditions.<br>
+          &bull; Tenable detected a <em>version number</em>, not an actual vulnerability &mdash; a common source of false positives.<br>
+          &bull; Optum is 2 versions behind on Enterprise, exposing them to hundreds of missing component updates and security features.<br>
+          &bull; Esri aligns with CISA's VEX framework: status is "Not Affected" with justification "vulnerable code cannot be controlled by adversary."<br>
+          &bull; Tomcat CVEs will be addressed in ArcGIS Enterprise 12.0 (estimated November 2025).</p>
+        </div>
+        <div class="goal-card tenable-card">
+          <h4>Recommended Path Forward</h4>
+          <p>&bull; <strong>Executive Escalation:</strong> Engage Optum leadership above technical architect level for risk-based decision making.<br>
+          &bull; <strong>Upgrade Cadence:</strong> Improve Optum's update cadence from 11.3 to reduce third-party component exposure.<br>
+          &bull; <strong>ArcGIS Enterprise 12.0:</strong> Target upgrade path that addresses all Tomcat CVEs and Python dependencies.<br>
+          &bull; <strong>Azure Cloud Migration:</strong> Mapping Studio cloud migration (go-live April 2026) may reduce on-premise security scan friction.<br>
+          &bull; <strong>Risk Acceptance:</strong> Establish formal risk record with Optum security for non-exploitable findings pending Enterprise 12 upgrade.</p>
+        </div>
+        <div class="goal-card tenable-card">
+          <h4>Timeline &amp; Key Dates</h4>
+          <p>&bull; <strong>Jun 12, 2025:</strong> Tenable scan flags Notebook Server Tomcat 9.0.84 as critical.<br>
+          &bull; <strong>Jun 13, 2025:</strong> Notebook Server removed from production (2-day remediation deadline).<br>
+          &bull; <strong>Jun 16, 2025:</strong> Esri CISO responds &mdash; not vulnerable, escalation to Optum executives recommended.<br>
+          &bull; <strong>Sep 2025:</strong> Optum requests ArcGIS Enterprise 12 release timeline for security risk record.<br>
+          &bull; <strong>Nov 2025 (est):</strong> ArcGIS Enterprise 12.0 release target.<br>
+          &bull; <strong>Ongoing:</strong> ArcGIS Pro blocked from deployment due to Python version finding.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="goals-section">
       <h3>Our Customers</h3>
       <div class="customers-grid">
         <div class="customer-card">

@@ -238,6 +238,41 @@
   .goals-full { padding: 14px 12px; }
 }
 
+/* === Tenable Issue Cards === */
+.tenable-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FFF3F0;
+  border: 1px solid #FFCCC2;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 14px;
+  font-size: .84rem;
+  color: #333;
+}
+.tenable-severity {
+  display: inline-block;
+  background: #CC0000;
+  color: #fff;
+  font-size: .7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 4px;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.tenable-card {
+  border-left-color: #CC0000 !important;
+}
+.tenable-card p {
+  margin-bottom: 6px;
+}
+.tenable-card p strong {
+  color: #002677;
+}
+
 /* === UHC Brand Tokens === */
 :root {
   --uhc-blue: #002677;
