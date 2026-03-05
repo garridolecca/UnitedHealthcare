@@ -2,6 +2,27 @@
    UHC Location Intelligence Showcase — App Logic
    ============================================================ */
 
+// ── Login Gate ──────────────────────────────────────────────
+(function initLogin() {
+  const form = document.getElementById("loginForm");
+  const errorEl = document.getElementById("loginError");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const user = document.getElementById("loginUser").value.trim();
+    const pass = document.getElementById("loginPass").value;
+    if (user === "portaladmin" && pass === "portaladmin") {
+      document.getElementById("loginOverlay").classList.add("hidden");
+      document.getElementById("appHeader").style.display = "";
+      document.getElementById("tabBar").style.display = "";
+      document.getElementById("appMain").style.display = "";
+      buildOverview();
+      buildGoals();
+    } else {
+      errorEl.textContent = "Invalid username or password.";
+    }
+  });
+})();
+
 // ── Globals ──────────────────────────────────────────────────
 const maps = {};
 let activeTab = "overview";
@@ -96,7 +117,7 @@ function switchTab(tabId) {
   activeTab = tabId;
   document.querySelectorAll(".tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.tab === tabId));
   document.querySelectorAll(".tab-panel").forEach((p) => p.classList.toggle("active", p.id === "panel-" + tabId));
-  if (tabId === "overview") return;
+  if (tabId === "overview" || tabId === "goals") return;
   if (!maps[tabId]) initMap(tabId);
   else maps[tabId].resize();
 }
@@ -245,6 +266,216 @@ function buildOverview() {
 
     grid.appendChild(card);
   });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  EGA 2026 GOALS TAB
+// ══════════════════════════════════════════════════════════════
+function buildGoals() {
+  const container = document.getElementById("goalsContent");
+  container.innerHTML = `
+    <div class="goals-header">
+      <h2>Enterprise Geospatial Analytics &mdash; 2026 Strategy &amp; Goals</h2>
+      <p>EGA is a platform suite of geospatial technologies and in-house subject matter expertise to enable successful use of geospatial technologies across all UHG businesses, products, and external partners.</p>
+    </div>
+
+    <div class="vision-mission-row">
+      <div class="vm-card">
+        <h4>Vision</h4>
+        <p>We aspire to nurture a culture of geographic thinkers where location is foundational to advancing the health and wellness of our world.</p>
+      </div>
+      <div class="vm-card">
+        <h4>Mission</h4>
+        <p>To empower people with the best geospatial technology and expert talent, so they are successful using maps and geography to solve the biggest challenges in healthcare.</p>
+      </div>
+    </div>
+
+    <div class="goals-section">
+      <h3>2026 OKRs: Our Big 5</h3>
+      <div class="big5-grid">
+        <div class="big5-card">
+          <span class="big5-num">1</span>
+          <h4>Transform Network Adequacy</h4>
+          <p>Use driving time and driving distance calculations to give UHG a competitive advantage in Network Adequacy reporting and analytics.</p>
+        </div>
+        <div class="big5-card">
+          <span class="big5-num">2</span>
+          <h4>Home Healthcare Solutions</h4>
+          <p>Rationalize and transform UHG's approach to geospatial solutions for home healthcare. Drive enterprise standards for efficiency, scale, reusability and cost optimization.</p>
+        </div>
+        <div class="big5-card">
+          <span class="big5-num">3</span>
+          <h4>Data Library &amp; AI Enrichments</h4>
+          <p>Mature productization and distribution frameworks. Support AI agents, location context enrichments, standards, reuse, and cost optimization.</p>
+        </div>
+        <div class="big5-card">
+          <span class="big5-num">4</span>
+          <h4>Technology Leadership</h4>
+          <p>Deliver geospatial technology leadership and introduce innovative product enhancements. Provide business value and improve experiences for customers.</p>
+        </div>
+        <div class="big5-card">
+          <span class="big5-num">5</span>
+          <h4>Grow Customer Base</h4>
+          <p>Expand impact and reach of business value derived from geospatial technology and expertise at UHG in identified addressable markets.</p>
+        </div>
+      </div>
+      <div class="table-stakes">
+        <strong>Table Stakes:</strong> Maintain SLAs and high NPS score for each product. Ensure ongoing business value and trust from current and prospective customers.
+      </div>
+    </div>
+
+    <div class="goals-section">
+      <h3>Major Program Objectives: 2026+</h3>
+      <div class="goals-grid">
+        <div class="goal-card">
+          <h4>Mapping Studio Cloud Migration (Azure)</h4>
+          <p>Modernize architecture, improve system elasticity. Upgrade to latest version. Go live in production April 2026. Bring new Esri ArcGIS GenAI features to the forefront.</p>
+        </div>
+        <div class="goal-card accent-orange">
+          <h4>Network Adequacy Solutions</h4>
+          <p>Transform UHG's approach and make provider networks better through real driving time/distance reporting, coverage gap visualization, and optimized provider distribution.</p>
+        </div>
+        <div class="goal-card">
+          <h4>Data Library &amp; Location Enrichment</h4>
+          <p>Mature frameworks to support AI agents, location context enrichments, standards and reuse. Expand administrative geography and population health metrics offerings.</p>
+        </div>
+        <div class="goal-card accent-navy">
+          <h4>Geospatial Functions for Lakehouse &amp; UAIS</h4>
+          <p>Enterprise guidance on patterns and practices for managing geospatial data. Integrate GeoAnalytics Engine into UDLP and UAIS.</p>
+        </div>
+        <div class="goal-card accent-orange">
+          <h4>Home &amp; Community Solutions</h4>
+          <p>Standardize and transform UHG's current approach to geospatial solutions for home healthcare.</p>
+        </div>
+        <div class="goal-card">
+          <h4>Corporate Security ESOC Build Out</h4>
+          <p>Support facilities and asset mapping, real-time security visualization, and enhanced emergency planning.</p>
+        </div>
+        <div class="goal-card accent-navy">
+          <h4>Product Expansions &amp; Enhancements</h4>
+          <p>Grow product adoption for Mapping Studio. Improve MPaaS governance with Location Services Navigator. Expand Location Intelligence enrichments and push Address Autocomplete adoption.</p>
+        </div>
+        <div class="goal-card">
+          <h4>Location Services Navigator Abyss Components</h4>
+          <p>Expand into reusable components and standards for Abyss.</p>
+        </div>
+        <div class="goal-card accent-orange">
+          <h4>Enterprise Commercial Reference Data</h4>
+          <p>Expand Location Intelligence consolidation concept to all other commercial reference data.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="goals-section">
+      <h3>Who We Are Today</h3>
+      <div class="goals-grid">
+        <div class="goal-card">
+          <h4>Address Experts</h4>
+          <p>Driving data quality with Address Standardization, Address Autocomplete, and Precise Geocoding.</p>
+        </div>
+        <div class="goal-card accent-orange">
+          <h4>Sales Engagement Copilots</h4>
+          <p>Empowering sales with interactive maps for planning, location-driven insights, and client-specific materials.</p>
+        </div>
+        <div class="goal-card accent-navy">
+          <h4>Real Estate &amp; Market Analysis</h4>
+          <p>Optimizing property decisions with market/site location analysis, strategic decision support, and mapping tools for operations.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="goals-section">
+      <h3>Who We Are Becoming</h3>
+      <div class="goals-grid">
+        <div class="goal-card">
+          <h4>Geospatial Engineering Sherpa Guides</h4>
+          <p>Enforcing standards and accelerating development with APIs, spatial services, governance, and reusable geospatial components.</p>
+        </div>
+        <div class="goal-card accent-orange">
+          <h4>Network Adequacy Innovators</h4>
+          <p>Supporting compliance and member access with real driving time/distance reporting, coverage gap visualization, and optimized provider distribution.</p>
+        </div>
+        <div class="goal-card accent-navy">
+          <h4>Corporate Security Partners</h4>
+          <p>Enhancing safety with facilities/asset mapping, real-time security visualization, and enhanced emergency planning.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="goals-section">
+      <h3>Future Vision: 2027+</h3>
+      <div class="goals-grid">
+        <div class="goal-card">
+          <h4>Reference Data Stewards &amp; Librarians</h4>
+          <p>Universal enterprise access to authoritative geographic data. Move beyond geography with commercial data rationalization.</p>
+        </div>
+        <div class="goal-card accent-orange">
+          <h4>AI's Map Gurus</h4>
+          <p>Delivering location intelligence and context for AI inquiries. Broaden GeoAI adoption. Mappers meet Generative AI.</p>
+        </div>
+        <div class="goal-card accent-navy">
+          <h4>Home &amp; Community Innovators</h4>
+          <p>Geospatial optimization for in-home care providers. Modernize territory design, scheduling, and real-time provider updates.</p>
+        </div>
+        <div class="goal-card">
+          <h4>Supply Chain Modernizers</h4>
+          <p>Enhancing operational insight with network visibility, demand forecasting, and integrated supplier/facility visuals.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="goals-section">
+      <h3>Our Customers</h3>
+      <div class="customers-grid">
+        <div class="customer-card">
+          <h4>Data Engineers</h4>
+          <p>Access authoritative geospatial data and analytic capabilities for data products.</p>
+        </div>
+        <div class="customer-card">
+          <h4>Software Engineers</h4>
+          <p>APIs and SDKs to integrate geospatial data and capabilities into applications.</p>
+        </div>
+        <div class="customer-card">
+          <h4>Data Scientists</h4>
+          <p>Enrich analysis and models with geospatial insights and GeoAI/ML tooling.</p>
+        </div>
+        <div class="customer-card">
+          <h4>Researchers &amp; Consultants</h4>
+          <p>Mapping and analysis for internal/external research and consulting projects.</p>
+        </div>
+        <div class="customer-card">
+          <h4>Business Operations</h4>
+          <p>Planning, operational awareness, and business intelligence workflows.</p>
+        </div>
+        <div class="customer-card">
+          <h4>Executive Leaders</h4>
+          <p>Focused maps and apps to drive operational awareness and decision-making.</p>
+        </div>
+        <div class="customer-card">
+          <h4>Customer Engagement Specialists</h4>
+          <p>Maps and apps for support questions and sales engagement.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="goals-section">
+      <h3>Our Offerings</h3>
+      <div class="goals-grid">
+        <div class="goal-card">
+          <h4>Mapping Studio</h4>
+          <p>Easy to use web mapping portal with authoritative data, robust applications, Microsoft 365 integrations, developer-friendly APIs, and business-focused solutions.</p>
+        </div>
+        <div class="goal-card accent-orange">
+          <h4>Location Intelligence</h4>
+          <p>Carefully selected documentation, example code, and demonstration materials to showcase the benefits of integrating spatial technology.</p>
+        </div>
+        <div class="goal-card accent-navy">
+          <h4>Location Services Navigator</h4>
+          <p>CASS-Certified Address Standardization, delivery verification, geocoding, autocomplete technology, and Block Group ID Enrichment.</p>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 // ── Helper: generate circle polygon points ───────────────────
@@ -1537,7 +1768,6 @@ function wireRxFinder(view, GraphicsLayer) {
 //  INIT — Load Overview + Auth on start
 // ══════════════════════════════════════════════════════════════
 document.addEventListener("DOMContentLoaded", () => {
-  buildOverview();
   initAuth();
 });
 

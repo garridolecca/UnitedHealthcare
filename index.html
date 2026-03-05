@@ -8,7 +8,27 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header class="uhc-header">
+  <!-- Login Overlay -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <svg viewBox="0 0 32 32" width="48" height="48" fill="none">
+        <rect width="32" height="32" rx="6" fill="#FF612B"/>
+        <path d="M8 10h4v12H8V10zm12 0h4v12h-4V10zM12 14h8v4h-8v-4z" fill="#fff"/>
+      </svg>
+      <h2>Location Intelligence</h2>
+      <p class="login-subtitle">UnitedHealthcare &mdash; ArcGIS Solutions Showcase</p>
+      <form id="loginForm" autocomplete="off">
+        <label for="loginUser">Username</label>
+        <input type="text" id="loginUser" placeholder="Enter username" required>
+        <label for="loginPass">Password</label>
+        <input type="password" id="loginPass" placeholder="Enter password" required>
+        <button type="submit" class="login-btn">Sign In</button>
+        <p class="login-error" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <header class="uhc-header" id="appHeader" style="display:none">
     <div class="header-inner">
       <div class="header-logo">
         <svg viewBox="0 0 32 32" width="36" height="36" fill="none">
@@ -34,8 +54,9 @@
     </div>
   </header>
 
-  <nav class="tab-bar" id="tabBar">
+  <nav class="tab-bar" id="tabBar" style="display:none">
     <button class="tab-btn active" data-tab="overview">Overview</button>
+    <button class="tab-btn" data-tab="goals">EGA 2026 Goals</button>
     <button class="tab-btn" data-tab="fraud">Fraud Detection</button>
     <button class="tab-btn" data-tab="access">Access to Care &amp; Equity</button>
     <button class="tab-btn" data-tab="cyber">Cyber Resilience</button>
@@ -44,10 +65,15 @@
     <button class="tab-btn" data-tab="rx">Rx Analytics</button>
   </nav>
 
-  <main class="main-content">
+  <main class="main-content" id="appMain" style="display:none">
     <!-- Overview Tab -->
     <section class="tab-panel active" id="panel-overview">
       <div class="overview-full" id="overviewContent"></div>
+    </section>
+
+    <!-- EGA 2026 Goals Tab -->
+    <section class="tab-panel" id="panel-goals">
+      <div class="goals-full" id="goalsContent"></div>
     </section>
 
     <!-- Fraud Detection Tab -->
